@@ -8,6 +8,7 @@ import {
 
 import { Navbar } from './app/Navbar'
 import {AddPostForm} from './features/posts/AddPostForm';
+import {EditPostForm} from './features/posts/EditPostForm';
 import {PostsList} from "./features/posts/PostsList"
 import {SinglePostPage} from "./features/posts/SinglePostPage"
 function App() {
@@ -31,7 +32,12 @@ function App() {
             path="/posts/:postId" //singlePostPage de ki postId ile url de ki post id nin aynı olması gerekli
             component={SinglePostPage} //bu url geldiği zaman bu companeneti çağır
          />
-          <Redirect to="/" />
+         <Route
+            exact
+            path="/editPost/:postId"
+            component={EditPostForm}
+         />
+         <Redirect to="/" />
         </Switch>
       </div>
     </Router>

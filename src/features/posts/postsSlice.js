@@ -12,13 +12,18 @@ export const postsSlice=createSlice({
         postAdded:(state,action)=>{
             state.push(action.payload)
         },
-        // postUpdated:(){
-            
-        // }
+        postUpdated:(state,action)=>{
+            const {id, title, content} = action.payload // yeni title ve content in ne olacağınız kullanıcıdan aldık
+            const existingPost =state.find(post => post.id === id);
+            if(existingPost){
+                existingPost.title=title //title a kullanıcıdan alınan title atandı
+                existingPost.content=content //content e kullanıcıdan alınan content atandı 
+            }
+        }
     }
 })
 
-export const {postAdded} =postsSlice.actions;
+export const {postAdded, postUpdated} =postsSlice.actions;
 
 export default postsSlice.reducer;
 //her bir oluşturulan slice için bu slice nin reducer fonksiyonunu store a eklememiz gerek
