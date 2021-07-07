@@ -9,12 +9,20 @@ export const EditPostForm = ({match}) => {
     const [title, setTitle]=useState(post.title);
     const [content, setContent]=useState(post.content);
 
+    const user=useSelector(state => state.users.name.find(user.id===post.userId))
+    const [userId,setUserId]=useState(user);
+
+    const users=useSelector(state => state.users);
+    const userOptions=users.map((user)=>(
+        <option key={user.id} value={user.id}>{user.name}</option>
+    ))
+
     const dispatch=useDispatch();
     const history=useHistory(); 
-
+   
     const savePost =()=>{
-        if(title && content){
-            dispatch( postUpdated({ id:postId, title, content }) )
+        if(title && content && userId){
+            dispatch( postUpdated({ id:postId, title, content, userId }) )
             history.push( `/posts/${postId}` )
         }
     }
@@ -31,7 +39,14 @@ export const EditPostForm = ({match}) => {
                     value={title} 
                     onChange={(e)=>setTitle(e.target.value)}
                 />
-                <label htmlFor="postContent">Content:</label>
+
+                 {/* <label htmlFor="postAuthor">Author:</label>
+                 <select id="postAuthor" value={userId} onChange={e=>setUserId(e.target.value)}>
+                    <option value="">{user}</option>
+                    {userOptions}
+                 </select> */}
+
+                 <label htmlFor="postContent">Content:</label>
                  <input 
                     type="text" 
                     id="postContent" 

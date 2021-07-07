@@ -1,5 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
-
+import { nanoid } from '@reduxjs/toolkit';// oluşturulan yeni postlara random otomatik id vermek için kullanacağız
+    
 const initialState =[
     {id:"1", title:"First Post!", content:"Hello!"},
     {id:"2", title:"Second Post!", content:"More text"},
@@ -9,15 +10,33 @@ export const postsSlice=createSlice({
     name:"posts",
     initialState,
     reducers:{ // statin düzenlenmesi silinmesi eklenmesi gibi her türlü action ların yapıldığı kısımdır
-        postAdded:(state,action)=>{
-            state.push(action.payload)
+        postAdded:{
+            reducer:(state, action)=>{
+                state.push(action.payload)
+            },
+            prepare:(title,content,userId)=>{ //üsteki reducer fonksiyonuna veri olarak gider
+                return{
+                    payload:{
+                        id:nanoid(),
+                        title,
+                        content,
+                        userId,
+                        date:new Date().toISOString(),//kullanıcının postu oluşturduğu tarihi kaydeder
+                        meta:"Buraya ek bilgi girebiliriz ihtiyaç olursa",
+                        error:true, //ihiyaç halinnde kullanıla bilir, action bir hata belirtiyorsa ture değilse false verebilir gibi kullanıla bilir"
+                        deneme:"deneme amaçlı yazıldı "
+                    }
+                }
+            }
         },
         postUpdated:(state,action)=>{
+            const date=new Date().toISOString();//guncelleme tarihi
             const {id, title, content} = action.payload // yeni title ve content in ne olacağınız kullanıcıdan aldık
             const existingPost =state.find(post => post.id === id);
             if(existingPost){
                 existingPost.title=title //title a kullanıcıdan alınan title atandı
                 existingPost.content=content //content e kullanıcıdan alınan content atandı 
+                existingPost.date=date // güncelleme tarihi güncellendi :)
             }
         }
     }

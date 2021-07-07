@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import {PostAuthor} from './PostAuthor'
 
 export const SinglePostPage = ({match}) => {
     //  /posts/dklsdklsdksd => postId
@@ -9,6 +10,8 @@ export const SinglePostPage = ({match}) => {
         state.posts.find((post)=>post.id === postId)
     )
 
+   // const userss=useSelector((state)=> state.users)
+   // const user=userss.find((user)=>user.id===post.userId)
     if(!post){
         return(
             <section>
@@ -21,6 +24,7 @@ export const SinglePostPage = ({match}) => {
         <section>
             <article className="post">
                 <h2>{post.title}</h2>
+                <PostAuthor userId={post.userId}/>
                 <p className="post-content">
                     {post.content}
                 </p>
